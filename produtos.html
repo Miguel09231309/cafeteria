@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Golden Grounds – Produtos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header><img src="logo.png" alt="Logo Golden Grounds" class="logo" /></header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="carrinho.html">Carrinho</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <h2>Produtos</h2>
+    <div class="products-grid">
+      <div class="product-card">
+        <h3>Café Expresso</h3>
+        <p class="price">R$ 5,00</p>
+        <input type="number" id="qtd-expresso" value="1" min="1" />
+        <button onclick="adicionar('Café Expresso', 5, 'qtd-expresso')">Adicionar</button>
+      </div>
+      <div class="product-card">
+        <h3>Brownie</h3>
+        <p class="price">R$ 6,00</p>
+        <input type="number" id="qtd-brownie" value="1" min="1" />
+        <button onclick="adicionar('Brownie', 6, 'qtd-brownie')">Adicionar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function adicionar(nome, preco, inputId) {
+      const qtd = parseInt(document.getElementById(inputId).value);
+      const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+      const item = carrinho.find(i => i.nome === nome);
+      if (item) {
+        item.qtd += qtd;
+      } else {
+        carrinho.push({ nome, preco, qtd });
+      }
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+      alert(`${nome} adicionado ao carrinho!`);
+    }
+  </script>
+</body>
+</html>
