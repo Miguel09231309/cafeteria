@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Golden Grounds – Carrinho</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header><img src="logocafeteria.jpg" alt="Logo Golden Grounds" class="logo" /></header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="produtos.html">Produtos</a></li>
+      <li><a href="pagamento.html">Pagamento</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <h2>Seu Carrinho</h2>
+    <table>
+      <thead>
+        <tr><th>Produto</th><th>Preço</th><th>Qtd</th><th>Total</th><th></th></tr>
+      </thead>
+      <tbody id="carrinho-body"></tbody>
+      <tfoot>
+        <tr><td colspan="3">Total Geral</td><td id="total-geral">R$ 0,00</td><td></td></tr>
+      </tfoot>
+    </table>
+    <button onclick="location.href='pagamento.html'">Finalizar Compra</button>
+  </div>
+
+  <script>
+    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+    const tbody = document.getElementById("carrinho-body");
+    const totalEl = document.getElementById("total-geral");
+    let total = 0;
+
+    carrinho.forEach((item, i) => {
+      const subtotal = item.preco * item.qtd;
+      total += subtotal;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${item.nome}</td>
+        <td>R$ ${item.preco.toFixed(2)}</td>
+        <td>${item.qtd}</td>
+        <td>R$ ${subtotal.toFixed(2)}</td>
+        <td><button onclick="remover(${i})">Remover</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    totalEl.textContent = `R$ ${total.toFixed(2)}`;
+
+    function remover(index) {
+      carrinho.splice(index, 1);
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+      location.reload();
+    }
+  </script>
+</body>
+</html>
